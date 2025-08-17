@@ -99,6 +99,28 @@ So for example, if the tutorial instructs you to edit the `src/App.js` file, the
 
 `<Your Theme's Root Folder>/react-src/src/App.js`
 
+If you prefer to name your entry file `App.jsx`, remember to update the import path in your entry point. For the JavaScript template edit `src/index.js`:
+
+```javascript
+import App from './App.jsx';
+```
+
+For the TypeScript template, change `src/index.tsx` in the same way:
+
+```typescript
+import App from './App.jsx';
+```
+
+An example structure using `.jsx` files:
+
+```
+src/
+├── index.js        # or index.tsx
+├── App.jsx
+└── components/
+    └── Example.jsx
+```
+
 ### The Public Folder
 
 The authors of the original `create-react-app` say that using the "Public" folder (found at `react-src/public` in your new theme's folder) is a last ditch "escape hatch" for adding otherwise-hard-to-deal-with files.
