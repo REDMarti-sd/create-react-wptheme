@@ -12,6 +12,10 @@ const path = require("path");
 const { rm, cp } = require("shelljs");
 const wpThemePostInstallerInfo = require("@devloco/create-react-wptheme-utils/postInstallerInfo");
 const wpThemeUserConfig = require("@devloco/create-react-wptheme-utils/getUserConfig"); //(paths, process.env.NODE_ENV);
+let chalk;
+import("chalk").then((m) => {
+    chalk = m.default;
+});
 
 const _doNotEditFileName = "!DO_NOT_EDIT_THESE_FILES!.txt";
 const _readyToDeployFileName = "!READY_TO_DEPLOY!.txt";
@@ -26,7 +30,7 @@ const _forBuild = () => {
         case "production":
             return true;
         default:
-            console.log(chalk.red(`Unknown env.NODE_ENV: ${nodeEnv}`));
+            console.log(chalk ? chalk.red(`Unknown env.NODE_ENV: ${nodeEnv}`) : `Unknown env.NODE_ENV: ${nodeEnv}`);
             return false;
     }
 };

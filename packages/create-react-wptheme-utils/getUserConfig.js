@@ -8,8 +8,11 @@
 "use strict";
 
 const fs = require("fs-extra");
-const chalk = require("chalk");
 const path = require("path");
+let chalk;
+import("chalk").then((m) => {
+    chalk = m.default;
+});
 const wpThemePostInstallerInfo = require("@devloco/create-react-wptheme-utils/postInstallerInfo");
 
 const _userDevConfigName = "user.dev.json";
@@ -87,7 +90,7 @@ module.exports = function (paths, nodeEnv) {
         case "production":
             return _getUserConfig(paths, _userProdConfigName, defaultUserProdConfig);
         default:
-            console.log(chalk.red(`Unknown env.NODE_ENV: ${nodeEnv}`));
+            console.log(chalk ? chalk.red(`Unknown env.NODE_ENV: ${nodeEnv}`) : `Unknown env.NODE_ENV: ${nodeEnv}`);
             return null;
     }
 };
