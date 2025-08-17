@@ -40,55 +40,11 @@ const url = require("url");
 
 const packageJson = require("./package.json");
 const _wpThemeVersion = packageJson.version;
-const _createReactAppVersion = _wpThemeVersion.split("-wp.")[0];
+// Target Create React App v5 for scaffolding
+const _createReactAppVersion = "5.1.0";
 
-// Check these!!!!
-const _reactScriptsWpThemeVersion = "^3.4.1-wp.1";
-const _getScriptsPath = function () {
-    return scriptsFromNpm();
-};
-
-const scriptsFromNpm = function () {
-    //console.log("SCRIPTS FROM NPM");
-    return {
-        path: `@devloco/react-scripts-wptheme@${_reactScriptsWpThemeVersion}`,
-    };
-};
-
-const scriptsFromGit = function () {
-    console.log("SCRIPTS FROM GIT");
-    const deleteFolderRecursive = (path) => {
-        if (fs.existsSync(path)) {
-            fs.readdirSync(path).forEach(function (file) {
-                let curPath = path + "/" + file;
-                if (fs.statSync(curPath).isDirectory()) {
-                    // recurse
-                    deleteFolderRecursive(curPath);
-                } else {
-                    // delete file
-                    fs.unlinkSync(curPath);
-                }
-            });
-
-            fs.rmdirSync(path);
-        }
-    };
-
-    const tempFolderName = "temp";
-    fs.ensureDirSync(tempFolderName);
-    process.chdir(tempFolderName);
-    const tempPath = process.cwd();
-    console.log(chalk.magenta("Cloning @devloco/create-react-app/react-scripts from GitHub..."));
-    execSync("git clone https://github.com/devloco/create-react-app.git");
-    process.chdir("..");
-    let scriptsPath = "file:" + path.join(tempPath, "create-react-app", "packages", "react-scripts");
-    return {
-        path: scriptsPath,
-        callback: function () {
-            deleteFolderRecursive(tempPath);
-        },
-    };
-};
+// Version of the customized react-scripts compatible with CRA 5
+const _reactScriptsWpThemeVersion = "^5.0.0-wp.1";
 
 let projectName;
 const program = new commander.Command(packageJson.name)
@@ -218,6 +174,7 @@ function createReactApp(createWpThemeReactRoot, appName, version, verbose, origi
         let command = "npx";
 
         let args = [];
+        args.push("--yes");
         args.push(`create-react-app@${_createReactAppVersion}`);
         args.push(createWpThemeReactRoot);
 
@@ -236,9 +193,8 @@ function createReactApp(createWpThemeReactRoot, appName, version, verbose, origi
         args.push("--template");
         args.push(template);
 
-        let scriptsPath = _getScriptsPath();
         args.push("--scripts-version");
-        args.push(scriptsPath.path);
+        args.push(`@devloco/react-scripts-wptheme@${_reactScriptsWpThemeVersion}`);
 
         const child = spawn(command, args, { stdio: "inherit" })
             .on("error", function (err) {
@@ -254,7 +210,6 @@ function createReactApp(createWpThemeReactRoot, appName, version, verbose, origi
                     return;
                 }
 
-                scriptsPath && scriptsPath.callback && scriptsPath.callback();
                 resolve();
             });
     }).catch(catchHandler);
