@@ -37,6 +37,7 @@ const execSync = require("child_process").execSync;
 const spawn = require("cross-spawn");
 const dns = require("dns");
 const url = require("url");
+const envinfo = require("envinfo");
 
 const packageJson = require("./package.json");
 const _wpThemeVersion = packageJson.version;
