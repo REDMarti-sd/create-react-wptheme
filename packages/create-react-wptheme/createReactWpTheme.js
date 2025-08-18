@@ -38,6 +38,7 @@ const spawn = require("cross-spawn");
 const dns = require("dns");
 const url = require("url");
 const envinfo = require("envinfo");
+const validationDeps = require("./validationDeps");
 
 const packageJson = require("./package.json");
 const _wpThemeVersion = packageJson.version;
@@ -277,8 +278,8 @@ function checkAppName(appName) {
         process.exit(1);
     }
 
-    // TODO: there should be a single place that holds the dependencies
-    const dependencies = ["react", "react-dom", "react-scripts", "@devloco/react-scripts-wptheme"].sort();
+    // Dependency names that cannot be used as project names are stored in validationDeps.js
+    const dependencies = validationDeps.slice().sort();
     if (dependencies.indexOf(appName) >= 0) {
         console.error(
             chalk.red(`We cannot create a project called ${chalk.green(appName)} because a dependency with the same name exists.\n` + `Due to the way npm works, the following names are not allowed:\n\n`) +
