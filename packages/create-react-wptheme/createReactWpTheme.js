@@ -43,7 +43,11 @@ const _wpThemeVersion = packageJson.version;
 const _createReactAppVersion = _wpThemeVersion.split("-wp.")[0];
 
 // Check these!!!!
-const _reactScriptsWpThemeVersion = "^3.4.1-wp.1";
+// React 18 requires a newer build setup such as CRA 5 which ships with
+// react-scripts@5.0.1.  Update the default scripts version so newly
+// generated themes are compatible with React 18 features like
+// `react-dom/client`.
+const _reactScriptsWpThemeVersion = "^5.0.1";
 const _getScriptsPath = function () {
     return scriptsFromNpm();
 };
@@ -51,7 +55,7 @@ const _getScriptsPath = function () {
 const scriptsFromNpm = function () {
     //console.log("SCRIPTS FROM NPM");
     return {
-        path: `@devloco/react-scripts-wptheme@${_reactScriptsWpThemeVersion}`,
+        path: `react-scripts@${_reactScriptsWpThemeVersion}`,
     };
 };
 
@@ -152,7 +156,7 @@ function printValidationResults(results) {
 }
 
 console.log(program.name() + " version: " + chalk.magenta(_wpThemeVersion));
-console.log("@devloco/react-scripts-wptheme version: " + chalk.magenta(_reactScriptsWpThemeVersion));
+console.log("react-scripts version: " + chalk.magenta(_reactScriptsWpThemeVersion));
 console.log();
 createApp(projectName, program.verbose, program.scriptsVersion, program.useNpm, program.usePnp, program.typescript);
 
