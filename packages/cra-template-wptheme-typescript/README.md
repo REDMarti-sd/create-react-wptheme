@@ -2,6 +2,8 @@
 
 This is the official TypeScript template for [Create React WPTheme](https://github.com/devloco/create-react-wptheme).
 
+> **Requires Node.js 14 or later**
+
 To use this template, add `--typescript` when creating a new wp theme.
 
 For example:

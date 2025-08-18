@@ -1,5 +1,7 @@
 # Create React WP Theme <!-- omit in toc -->
 
+> **Requires Node.js 14 or later**
+
 ## Still Up To Date!
 
 August 18, 2025
