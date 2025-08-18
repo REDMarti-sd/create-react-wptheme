@@ -37,6 +37,7 @@ const execSync = require("child_process").execSync;
 const spawn = require("cross-spawn");
 const dns = require("dns");
 const url = require("url");
+const envinfo = require("envinfo");
 
 const packageJson = require("./package.json");
 const _wpThemeVersion = packageJson.version;
@@ -97,7 +98,7 @@ const scriptsFromGit = function () {
 let projectName;
 const program = new commander.Command(packageJson.name)
     .version(packageJson.version)
-    .arguments("<project-directory>")
+    .argument("[project-directory]")
     .usage(`${chalk.green("<project-directory>")} [options]`)
     .action((name) => {
         projectName = name;
@@ -117,7 +118,9 @@ const program = new commander.Command(packageJson.name)
     })
     .parse(process.argv);
 
-if (program.info) {
+const options = program.opts();
+
+if (options.info) {
     console.log(chalk.bold("\nEnvironment Info:"));
     return envinfo
         .run(
@@ -158,7 +161,7 @@ function printValidationResults(results) {
 console.log(program.name() + " version: " + chalk.magenta(_wpThemeVersion));
 console.log("react-scripts version: " + chalk.magenta(_reactScriptsWpThemeVersion));
 console.log();
-createApp(projectName, program.verbose, program.scriptsVersion, program.useNpm, program.usePnp, program.typescript);
+createApp(projectName, options.verbose, options.scriptsVersion, options.useNpm, options.usePnp, options.typescript);
 
 function createApp(name, verbose, version, useNpm, usePnp, useTypescript, template) {
     const root = path.resolve(name);
