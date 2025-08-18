@@ -11,7 +11,11 @@ const fs = require("fs");
 const path = require("path");
 const url = require("url");
 const https = require("https");
-const WebSocket = require("ws");
+const { WebSocketServer } = require("ws");
+let chalk;
+import("chalk").then((m) => {
+    chalk = m.default;
+});
 
 const _getUserConfig = require("@devloco/create-react-wptheme-utils/getUserConfig");
 const _typeBuildError = "errors";
@@ -141,7 +145,7 @@ function _webSocketServerSetup() {
 }
 
 function _startNonSslServer() {
-    _webSocketServer = new WebSocket.Server({ port: _serverPort });
+    _webSocketServer = new WebSocketServer({ port: _serverPort });
     _webSocketServerSetup();
 }
 
@@ -186,7 +190,7 @@ function _startSslServer() {
         process.exit(1);
     }
 
-    _webSocketServer = new WebSocket.Server({ server: _webServer });
+    _webSocketServer = new WebSocketServer({ server: _webServer });
     _webSocketServerSetup();
 
     _webServer.listen(_serverPort);
@@ -224,10 +228,15 @@ const wpThemeServer = {
                 toInject = [phpStuff, jsTags.join("\n"), jsCall];
                 break;
             default:
-                console.log(chalk.magenta(`wpstart::injectWpThemeClient: unknown inject mode: ${mode}.`));
-                console.log(`Available inject modes: ${chalk.cyan("disable, afterToken, beforeToken, replaceToken, endOfFile")}`);
+                if (chalk) {
+                    console.log(chalk.magenta(`wpstart::injectWpThemeClient: unknown inject mode: ${mode}.`));
+                    console.log(`Available inject modes: ${chalk.cyan("disable, afterToken, beforeToken, replaceToken, endOfFile")}`);
+                } else {
+                    console.log(`wpstart::injectWpThemeClient: unknown inject mode: ${mode}.`);
+                    console.log("Available inject modes: disable, afterToken, beforeToken, replaceToken, endOfFile");
+                }
                 process.exit();
-        }
+            }
 
         _clientInjectString = toInject.join("\n");
 
