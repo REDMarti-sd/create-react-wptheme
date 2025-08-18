@@ -2,6 +2,8 @@
 
 This is the official base template for [Create React WPTheme](https://github.com/devloco/create-react-wptheme).
 
+> **Requires Node.js 14 or later**
+
 # Create React WP Theme
 
 See the latest [README](https://github.com/devloco/create-react-wptheme) on Github.
