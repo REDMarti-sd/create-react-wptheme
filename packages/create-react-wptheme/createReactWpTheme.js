@@ -20,7 +20,7 @@
 // tell people to update their global version of create-react-wptheme.
 //
 // Also be careful with new language features.
-// This file must work on Node 6+.
+// This file must work on Node 14+.
 //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //   /!\ DO NOT MODIFY THIS FILE /!\
